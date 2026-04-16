@@ -1,18 +1,28 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.22)
 
-project(Sorting-Visualizer
-    LANGUAGES C)
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+project("Logic-Gate-Sim")
 
-find_package(raylib CONFIG REQUIRED)
+# Adding Raylib
+include(FetchContent)
+set(FETCHCONTENT_QUIET FALSE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
+set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example games
 
-add_executable(Sorting-Visualizer
-    "src/main.c"
-    "src/algorithms.c"
-    "src/elements.c"
-    "src/input.c"
-    "src/timer.c"
-    "src/ui.c")
+FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
+    GIT_TAG "master"
+    GIT_PROGRESS TRUE
+)
 
-target_link_libraries(Sorting-Visualizer PRIVATE raylib)
+FetchContent_MakeAvailable(raylib)
+
+add_executable(${PROJECT_NAME}
+    "src/App.cpp"
+    "src/Block_container.cpp"
+    "src/Block.cpp"
+    "src/Connection_tracker.cpp"
+    "src/main.cpp"
+    "src/rendering.cpp"
+    "src/User_input_handler.cpp")
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
